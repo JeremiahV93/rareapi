@@ -1,0 +1,15 @@
+[
+    {
+        "model": "rareapi.post",
+        "pk": 1,
+        "fields": {
+            "rareuser": 1,
+            "category": 1,
+            "title": "The Art of the Fart",
+            "publication_date": "2019-11-27",
+            "image_url": "https://stockphoto.com/samples/NzQ0NjQzNzQwMDAxMWY1YmNmYjBlZA==/MjIxMWY1YmNmYjBlZA==/young-man-smelling.jpg&size=1024",
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam volutpat congue velit, non viverra erat. In ac ipsum quis purus porta viverra. Cras orci lectus, tempus quis sem sodales, dignissim finibus ipsum. Vivamus et egestas tortor. Duis at purus commodo, congue velit sed, porttitor magna. Vivamus ut dignissim risus.",
+            "approved": true
+        }
+    }
+]

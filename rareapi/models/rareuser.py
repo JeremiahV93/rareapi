@@ -7,4 +7,4 @@ class RareUser(models.Model):
     bio = models.CharField(max_length=50)
     profile_image_url = models.CharField(max_length=250)
     created_on = models.DateField()
-    active = True
+    active = models.BooleanField(default=False)
