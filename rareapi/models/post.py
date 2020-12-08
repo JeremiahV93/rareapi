@@ -8,5 +8,5 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     publication_date = models.DateField()
     image_url = models.CharField(max_length=250)
-    content = models.TextField(_(""))
+    content = models.TextField()
     approved = True
