@@ -1,0 +1,14 @@
+[
+    {
+        "model": "rareapi.rareuser",
+        "pk": 1,
+        "fields": {
+             "user": 1,
+             "bio": "From Staten Island. Likes long walks on beaches and writing. And Pina Colatas",
+             "profile_image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.ytimg.com%2Fvi%2F7jSJ9BF3rlY%2Fhqdefault.jpg&f=1&nofb=1",
+             "created_on": "2020-10-4",
+             "active": true
+
+        }
+    }
+]
