@@ -22,4 +22,31 @@ def login_user(request):
             return HttpResponse(data, content_type='application/json')
         else:
             data = json.dumps({"valid": False})
-            return HttpResponse(date, content_type='application/json')
+            return HttpResponse(data, content_type='application/json')
+
+
+@csrf_exempt
+def register_user(request):
+
+    req_body = json.loads(request.body.decode())
+
+    new_user = User.objects.create_user(
+        username=req_body['username'],
+        email=req_body['email'],
+        password=req_body['password'],
+        first_name=req_body['first_name'],
+        last_name=req_body['last_name']  
+    )
+
+    rareuser = RareUser.objects.create(
+        user=new_user,
+        bio=req_body['bio'],
+        profile_image_url=req_body['profile_image_url'],
+        created_on=req_body['created_on'],
+        active=True
+    )
+
+    token = Token.objects.create(user=new_user)
+
+    data =  json.dumps({"token": token.key})
+    return HttpResponse(data, content_type='applications.json')
