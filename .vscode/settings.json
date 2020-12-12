@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/Users/brookenemchak/.local/share/virtualenvs/rareapi-trT_koXe/bin/python",
+    "python.pythonPath": "/home/jvasquez/.local/share/virtualenvs/rareapi-nLdhyux8/bin/python",
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
     "sqltools.connections": [
