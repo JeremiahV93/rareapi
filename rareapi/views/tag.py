@@ -7,7 +7,7 @@ from rest_framework import serializers
 from rest_framework import status
 from rareapi.models import Tag, Post, Category, RareUser
 
-class TagsViewSet:
+class TagsViewSet(ViewSet):
     def create(self, request):
 
         RareUser = RareUser.objects.get(user=request.auth.user)
