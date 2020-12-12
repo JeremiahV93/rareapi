@@ -7,7 +7,8 @@ from rest_framework import serializers
 from rest_framework import status
 from rareapi.models import Tag, Post, Category, RareUser
 
-class TagsViewSet:
+
+class TagsViewSet(ViewSet):
     def create(self, request):
 
         RareUser = RareUser.objects.get(user=request.auth.user)
@@ -20,11 +21,10 @@ class TagsViewSet:
             serializer = TagSerializer(tag, context={'request': reqest})
             return Response(serializer.data)
         except ValidationError as ex:
-            return Response({"reason":ex.message}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
 
-    
     def retrieve(self, request, pk=None):
-        
+
         try:
             tag = Tag.objects.get(pk=pk)
             serializer = TagSerializer(tag, context={'request': request})
@@ -33,7 +33,7 @@ class TagsViewSet:
             return HttpResponseServerError(ex)
 
     def update(self, request, pk=None):
-        tag =Tag.objects.get(pk=pk)
+        tag = Tag.objects.get(pk=pk)
         tag.label = request.data["label"]
 
         tag.save()
@@ -53,7 +53,6 @@ class TagsViewSet:
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
     def list(self, request):
 
         tags = Tag.objects.all()
@@ -61,6 +60,7 @@ class TagsViewSet:
         serializer = TagSerializer(
             tags, many=True, context={'request': request})
         return Response(serializer.data)
+
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
