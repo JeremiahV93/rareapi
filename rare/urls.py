@@ -5,10 +5,12 @@ from django.conf.urls import include
 from rareapi.views import TagsViewSet
 from rest_framework import routers
 from rareapi.views import Posts
+from rareapi.views import Categories
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'posts', Posts, 'post')
 router.register(r'tags', TagsViewSet, 'tag')
+router.register(r'categories', Categories, 'category')
 
 urlpatterns = [
     path('', include(router.urls)),
