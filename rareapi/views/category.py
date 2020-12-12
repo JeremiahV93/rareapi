@@ -39,5 +39,5 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
             view_name='category',
             lookup_field='id'
         )
-        fields = ('label')
+        fields = ('label',)
         depth = 1
