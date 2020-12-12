@@ -6,7 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
-from rareapi.models import Post
+from rareapi.models import Post, RareUser, Category
 
 class Posts(ViewSet):
 
@@ -30,6 +30,28 @@ class Posts(ViewSet):
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
+    def create(self, request):
+
+        rare_user = RareUser.objects.get(user=request.auth.user)
+
+        post = Post()
+        post.title = request.data["title"]
+        post.publication_date = request.data["publication_date"]
+        post.image_url = request.data["image_url"]
+        post.content = request.data["content"]
+        post.approved = request.data["approved"]
+        post.rare_user = rare_user
+
+        category =  Category.objects.get(pk= request.data["categoryId"])
+        post.category = category
+
+        try:
+            post.save()
+            serializers =  PostSerializer(post, context={'request': request})
+            return Response(serializer.data) 
+        except ValidationError as ex:
+            return Response({ "reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
