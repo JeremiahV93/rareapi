@@ -33,7 +33,7 @@ class Posts(ViewSet):
 
     def create(self, request):
 
-        rare_user = RareUser.objects.get(user=request.auth.user)
+        rareuser = RareUser.objects.get(user=request.auth.user)
 
         post = Post()
         post.title = request.data["title"]
@@ -41,14 +41,14 @@ class Posts(ViewSet):
         post.image_url = request.data["image_url"]
         post.content = request.data["content"]
         post.approved = request.data["approved"]
-        post.rare_user = rare_user
+        post.rareuser = rareuser
 
         category =  Category.objects.get(pk= request.data["categoryId"])
         post.category = category
 
         try:
             post.save()
-            serializers =  PostSerializer(post, context={'request': request})
+            serializer =  PostSerializer(post, context={'request': request})
             return Response(serializer.data) 
         except ValidationError as ex:
             return Response({ "reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
