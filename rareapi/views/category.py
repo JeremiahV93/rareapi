@@ -31,6 +31,19 @@ class Categories(ViewSet):
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    def create(self, request):
+        category = Category()
+        category.label = request.data["label"]
+
+        try:
+            category.save()
+            serializer = CategorySerializer(
+                category, context={'request': request})
+            return Response(serializer.data)
+
+        except ValidationError as ex:
+            return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
