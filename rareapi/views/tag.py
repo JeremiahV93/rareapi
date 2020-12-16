@@ -65,8 +65,5 @@ class TagsViewSet(ViewSet):
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        url = serializers.HyperlinkedIdentityField(
-            view_name='tag',
-            lookup_field='id'
-        )
-        fields = ('id', 'url', 'label')
+        
+        fields = ('id', 'label')

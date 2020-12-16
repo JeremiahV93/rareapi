@@ -6,8 +6,9 @@ from rest_framework.decorators import action
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
-from rareapi.models import Post, RareUser, Category
+from rareapi.models import Post, RareUser, Category, PostTag, Tag
 from rareapi.views.category import CategorySerializer
+from rareapi.views.tag import TagSerializer
 class Posts(ViewSet):
 
     def list(self, request):
@@ -55,8 +56,17 @@ class Posts(ViewSet):
         category =  Category.objects.get(pk= request.data["categoryId"])
         post.category = category
 
+        tags = request.data['tags']
+
         try:
             post.save()
+
+            for tag in tags:
+                posttag = PostTag()
+                posttag.post = post
+                posttag.tag = tag
+                posttag.save()
+
             serializer =  PostSerializer(post, context={'request': request})
             return Response(serializer.data) 
         except ValidationError as ex:
@@ -84,16 +94,20 @@ class Posts(ViewSet):
 
         return Response({}, status=status.HTTP_204_NO_CONTENT)
 
+class PostTagSerializer(serializers.ModelSerializer):
+    tag = TagSerializer(many=False)
 
+    class Meta:
+        model = PostTag
+        fields = ['tag']
 
-class PostSerializer(serializers.HyperlinkedModelSerializer):
+class PostSerializer(serializers.ModelSerializer):
 
     category = CategorySerializer(many=False)
+    posttags = PostTagSerializer(many=True)
     class Meta:
         model = Post
-        url = serializers.HyperlinkedIdentityField(
-            view_name='post',
-            lookup_field='id'
-        )
-        fields = ('id', 'title', 'publication_date', 'image_url', 'content', 'approved', 'category')
+        
+        
+        fields = ('id', 'title', 'publication_date', 'image_url', 'content', 'approved', 'category', 'posttags')
         depth = 1
