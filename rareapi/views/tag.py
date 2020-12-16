@@ -11,14 +11,14 @@ from rareapi.models import Tag, Post, Category, RareUser
 class TagsViewSet(ViewSet):
     def create(self, request):
 
-        RareUser = RareUser.objects.get(user=request.auth.user)
+        rareuser = RareUser.objects.get(user=request.auth.user)
 
         tag = Tag()
         tag.label = request.data["label"]
 
         try:
             tag.save()
-            serializer = TagSerializer(tag, context={'request': reqest})
+            serializer = TagSerializer(tag, context={'request': request})
             return Response(serializer.data)
         except ValidationError as ex:
             return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)

@@ -56,12 +56,13 @@ class Posts(ViewSet):
         category =  Category.objects.get(pk= request.data["categoryId"])
         post.category = category
 
-        tags = request.data['tags']
+        tags = request.data['posttags']
 
         try:
             post.save()
 
-            for tag in tags:
+            for tag_id in tags:
+                tag = Tag.objects.get(pk = tag_id)
                 posttag = PostTag()
                 posttag.post = post
                 posttag.tag = tag
