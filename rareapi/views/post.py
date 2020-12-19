@@ -77,9 +77,7 @@ class Posts(ViewSet):
         rareuser = RareUser.objects.get(user=request.auth.user)
 
         post = Post.objects.get(pk=pk)
-       
-        import pdb
-        # pdb.set_trace()
+
 
         post.publication_date = request.data["publication_date"]
         post.title = request.data["title"]
@@ -91,9 +89,28 @@ class Posts(ViewSet):
         category =  Category.objects.get(pk= request.data["categoryId"])
         post.category = category
 
-        post.save()
+        tags = request.data['posttags']
 
-        return Response({}, status=status.HTTP_204_NO_CONTENT)
+        
+        try: 
+            post.save()
+            for tag_id in tags:
+                tag = Tag.objects.get(pk = tag_id)
+
+                try:
+                    posttag = PostTag.objects.get(post=post, tag=tag)
+                    return Response(
+                        {'message': 'PostTag already Exist.'},
+                        status=status.HTTP_422_UNPROCESSABLE_ENTITY
+                    )
+                except PostTag.DoesNotExist:
+                    posttag = PostTag()
+                    posttag.post = post
+                    posttag.tag = tag
+                    posttag.save()
+                    return Response({}, status=status.HTTP_201_CREATED)
+        except:
+            return Response({}, status=status.HTTP_404_NOT_FOUND)
 
 class PostTagSerializer(serializers.ModelSerializer):
     tag = TagSerializer(many=False)
