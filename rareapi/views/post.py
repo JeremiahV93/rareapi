@@ -89,28 +89,9 @@ class Posts(ViewSet):
         category =  Category.objects.get(pk= request.data["categoryId"])
         post.category = category
 
-        tags = request.data['posttags']
+        post.save()
 
-        
-        try: 
-            post.save()
-            for tag_id in tags:
-                tag = Tag.objects.get(pk = tag_id)
-
-                try:
-                    posttag = PostTag.objects.get(post=post, tag=tag)
-                    return Response(
-                        {'message': 'PostTag already Exist.'},
-                        status=status.HTTP_422_UNPROCESSABLE_ENTITY
-                    )
-                except PostTag.DoesNotExist:
-                    posttag = PostTag()
-                    posttag.post = post
-                    posttag.tag = tag
-                    posttag.save()
-                    return Response({}, status=status.HTTP_201_CREATED)
-        except:
-            return Response({}, status=status.HTTP_404_NOT_FOUND)
+        return Response({}, status=status.HTTP_201_CREATED)
 
 class PostTagSerializer(serializers.ModelSerializer):
     tag = TagSerializer(many=False)
