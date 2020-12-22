@@ -77,9 +77,7 @@ class Posts(ViewSet):
         rareuser = RareUser.objects.get(user=request.auth.user)
 
         post = Post.objects.get(pk=pk)
-       
-        import pdb
-        # pdb.set_trace()
+
 
         post.publication_date = request.data["publication_date"]
         post.title = request.data["title"]
@@ -93,7 +91,7 @@ class Posts(ViewSet):
 
         post.save()
 
-        return Response({}, status=status.HTTP_204_NO_CONTENT)
+        return Response({}, status=status.HTTP_201_CREATED)
 
 class PostTagSerializer(serializers.ModelSerializer):
     tag = TagSerializer(many=False)
