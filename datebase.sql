@@ -1,1 +1,1 @@
-DELETE from auth_user WHERE  id=5
+DELETE from authtoken_token WHERE  user_id=5
