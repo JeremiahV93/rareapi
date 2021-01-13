@@ -6,7 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
-from rareapi.models import Comment, RareUser
+from rareapi.models import Comment, RareUser, Post
 
 class Comments(ViewSet):
 
@@ -26,6 +26,22 @@ class Comments(ViewSet):
             comments, many=True, context={'request': request})
         return Response(serializer.data)
 
+    def create(self, request):
+        rareuser = RareUser.objects.get(user=request.auth.user)
+        post = Post.objects.get(pk=request.data["post"])
+
+        comment = Comment()
+        comment.rareuser =  rareuser
+        comment.post = post
+        comment.comment = request.data["comment"]
+        comment.date = request.data["date"]
+
+        try:
+            comment.save()
+            serializer = CommentSerializer(comment, context={'request': request})
+            return Response(serializer.data)
+        except ValidationError as ex:
+            return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)    
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
