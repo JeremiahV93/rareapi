@@ -42,6 +42,16 @@ class Comments(ViewSet):
             return Response(serializer.data)
         except ValidationError as ex:
             return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)    
+    
+    def destroy(self, request, pk=None):
+        try:
+            comment = Comment.objects.get(pk=pk)
+            comment.delete()
+
+            return Response({}, status=status.HTTP_204_NO_CONTENT)
+        except Tag.DoesNotExist as ex:
+            return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -63,5 +73,5 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
        
         
-        fields = ('rareuser', 'comment', 'date')
+        fields = ('rareuser', 'comment', 'date', 'id')
         depth = 2
