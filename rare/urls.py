@@ -8,6 +8,7 @@ from rareapi.views import Posts
 from rareapi.views import Categories
 from rareapi.views import PostTags
 from rareapi.views import Comments
+from rareapi.views import RareUserView
 
 
 router = routers.DefaultRouter(trailing_slash=False)
@@ -16,6 +17,8 @@ router.register(r'tags', TagsViewSet, 'tag')
 router.register(r'categories', Categories, 'category')
 router.register(r'ptags', PostTags, 'py')
 router.register(r'comments', Comments, 'comment')
+router.register(r'users', RareUserView, 'user')
+
 
 
 
