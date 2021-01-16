@@ -52,6 +52,14 @@ class Comments(ViewSet):
         except Tag.DoesNotExist as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
 
+    def update(self, request, pk=None):
+        comment = Comment.objects.get(pk=pk)
+        comment.comment = request.data["comment"]
+
+        comment.save()
+
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
