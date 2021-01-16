@@ -1,0 +1,12 @@
+[
+    {
+        "model": "rareapi.comment",
+        "pk": 1,
+        "fields": {
+            "rareuser": 1,
+            "post": 1,
+            "comment": "this is the best post ever in ever",
+            "date": "2019-11-28"
+        }
+    }
+]

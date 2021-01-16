@@ -7,12 +7,16 @@ from rest_framework import routers
 from rareapi.views import Posts
 from rareapi.views import Categories
 from rareapi.views import PostTags
+from rareapi.views import Comments
+
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'posts', Posts, 'post')
 router.register(r'tags', TagsViewSet, 'tag')
 router.register(r'categories', Categories, 'category')
-router.register(r'ptags', PostTags, 'postTag')
+router.register(r'ptags', PostTags, 'py')
+router.register(r'comments', Comments, 'comment')
+
 
 
 urlpatterns = [

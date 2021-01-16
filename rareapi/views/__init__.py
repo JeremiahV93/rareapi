@@ -4,3 +4,4 @@ from .post import Posts
 from .category import Categories, CategorySerializer
 from .post_tags import PostTags
 from .user import User
+from .comment import Comments
