@@ -6,10 +6,10 @@ from rest_framework.decorators import action
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
+from rareapi.models import RareUser
 
 
-
-class RareUser(ViewSet):
+class RareUserView(ViewSet):
 
     def list(self, request):
         users = RareUser.objects.all()
@@ -31,10 +31,11 @@ class RareUser(ViewSet):
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = User
+        model = RareUser
         
         
-        fields = ('user', 'bio', 'profile_image_url', 'created_on', 'active', 'approved')
+        fields = ('user', 'bio', 'profile_image_url', 'created_on', 'active')
       
+
 
 
